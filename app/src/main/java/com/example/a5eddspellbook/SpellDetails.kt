@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.add
+import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,6 +16,8 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
+import kotlin.collections.remove
+import kotlin.collections.toMutableSet
 
 class SpellDetails : Fragment() {
 
@@ -28,6 +33,26 @@ class SpellDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val spellUrl = arguments?.getString("spellUrl")
+        val favoriteBtn = view.findViewById<ImageButton>(R.id.favourite)
+        val sharedPrefs = requireActivity().getSharedPreferences("Favorites", Context.MODE_PRIVATE)
+
+        var isFavorite = sharedPrefs.getStringSet("favorite_spells", emptySet())?.contains(spellUrl) == true
+        updateFavoriteIcon(favoriteBtn, isFavorite)
+        favoriteBtn.setOnClickListener {
+            val currentFavorites = sharedPrefs.getStringSet("favorite_spells", emptySet())?.toMutableSet() ?: mutableSetOf()
+
+            if (isFavorite) {
+                currentFavorites.remove(spellUrl)
+            } else {
+                currentFavorites.add(spellUrl)
+            }
+
+            // Save back to SharedPreferences
+            sharedPrefs.edit().putStringSet("favorite_spells", currentFavorites).apply()
+
+            isFavorite = !isFavorite
+            updateFavoriteIcon(favoriteBtn, isFavorite)
+        }
 
         CoroutineScope(Dispatchers.IO).launch {
             val json = URL("https://www.dnd5eapi.co$spellUrl").readText()
@@ -37,13 +62,13 @@ class SpellDetails : Fragment() {
                 val ritualView = view.findViewById<TextView>(R.id.Ritual)
                 val materialView = view.findViewById<TextView>(R.id.Material)
                 val concentrationView = view.findViewById<TextView>(R.id.Concentration)
-                
+
                 view.findViewById<TextView>(R.id.Name).text = spell.getString("name")
                 view.findViewById<TextView>(R.id.Description).text = joinJsonArray(spell.getJSONArray("desc"), "\n")
                 view.findViewById<TextView>(R.id.UpCast).text = joinJsonArray(spell.getJSONArray("higher_level"), "\n")
                 view.findViewById<TextView>(R.id.Range).text = "Range: ${spell.getString("range")}"
                 view.findViewById<TextView>(R.id.Components).text = "Components: ${joinJsonArray(spell.getJSONArray("components"), ", ")}"
-                
+
                 val materialText = spell.optString("material")
                 if (materialText.isNotBlank()) {
                     materialView.text = "Materials: $materialText"
@@ -71,6 +96,13 @@ class SpellDetails : Fragment() {
             }
         }
     }
+
+
+}
+
+private fun updateFavoriteIcon(btn: ImageButton, isFavorite: Boolean) {
+    val icon = if (isFavorite) R.drawable.star_on else R.drawable.star_off
+    btn.setImageResource(icon)
 }
 
 private fun joinJsonArray(jsonArray: JSONArray, separator: String): String {

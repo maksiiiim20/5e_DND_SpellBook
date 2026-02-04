@@ -10,7 +10,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.a5eddbestiary"
+        applicationId = "com.example.a5eddspellbook"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
