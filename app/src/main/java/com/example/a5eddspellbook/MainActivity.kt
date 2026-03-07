@@ -1,13 +1,14 @@
 package com.example.a5eddspellbook
 
 import android.os.Bundle
-import android.view.Gravity
-import androidx.appcompat.app.AppCompatActivity
-import androidx.drawerlayout.widget.DrawerLayout
-import com.google.android.material.navigation.NavigationView
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,26 +17,29 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         drawerLayout = findViewById(R.id.drawerLayout)
         navigationView = findViewById(R.id.NavigationView)
         val menuButton = findViewById<ImageButton>(R.id.SideMenuButton)
 
+        // open drawer
         menuButton.setOnClickListener {
-            drawerLayout.openDrawer(Gravity.LEFT)
+            drawerLayout.openDrawer(GravityCompat.START)
         }
 
+        // navigation clicks
         navigationView.setNavigationItemSelectedListener { menuItem ->
-            when(menuItem.itemId) {
+            when (menuItem.itemId) {
                 R.id.navHome -> replaceFragment(Home())
                 R.id.navSearch -> replaceFragment(Search())
                 R.id.navSettings -> replaceFragment(Settings())
             }
-            drawerLayout.closeDrawer(Gravity.LEFT)
+
+            drawerLayout.closeDrawer(GravityCompat.START)
             true
         }
-
 
         if (savedInstanceState == null) {
             replaceFragment(Home())

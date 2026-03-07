@@ -62,10 +62,20 @@ class SpellDetails : Fragment() {
                 val ritualView = view.findViewById<TextView>(R.id.Ritual)
                 val materialView = view.findViewById<TextView>(R.id.Material)
                 val concentrationView = view.findViewById<TextView>(R.id.Concentration)
+                val upCastView = view.findViewById<TextView>(R.id.UpCast)
 
                 view.findViewById<TextView>(R.id.Name).text = spell.getString("name")
                 view.findViewById<TextView>(R.id.Description).text = joinJsonArray(spell.getJSONArray("desc"), "\n")
-                view.findViewById<TextView>(R.id.UpCast).text = joinJsonArray(spell.getJSONArray("higher_level"), "\n")
+
+                val upCastArray = spell.optJSONArray("higher_level")
+
+                if (upCastArray != null && upCastArray.length() > 0) {
+                    upCastView.text = joinJsonArray(upCastArray, "\n")
+                    upCastView.visibility = View.VISIBLE
+                } else {
+                    upCastView.visibility = View.GONE
+                }
+
                 view.findViewById<TextView>(R.id.Range).text = "Range: ${spell.getString("range")}"
                 view.findViewById<TextView>(R.id.Components).text = "Components: ${joinJsonArray(spell.getJSONArray("components"), ", ")}"
 

@@ -49,4 +49,5 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.8.9")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("com.github.skydoves:colorpickerview:2.4.0")
 }

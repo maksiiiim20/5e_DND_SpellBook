@@ -3,14 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_margin="8dp"
+    android:background="@drawable/border_background">
 
     <TextView
         android:id="@+id/spellName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textColor="@color/TextColor"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/spellLevel"
@@ -18,6 +21,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/spellName"
         android:textSize="14sp"
-        android:textColor="?android:attr/textColorPrimary" />
+        android:textColor="@color/TextColor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
