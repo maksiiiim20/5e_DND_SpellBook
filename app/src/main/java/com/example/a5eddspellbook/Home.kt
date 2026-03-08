@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,9 +31,21 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        val settingsPrefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE)
+
+        val backgroundColor = settingsPrefs.getInt("background_color", R.color.BackgroundColor)
+        val borderColor = settingsPrefs.getInt("border_color", R.color.BorderColor)
+        val textColor = settingsPrefs.getInt("text_color", R.color.TextColor)
+
+
+        view.findViewById<TextView>(R.id.HomeTitle)?.setTextColor(textColor)
+        view.setBackgroundColor(backgroundColor)
+
+
         val favouriteSpellsList = view.findViewById<RecyclerView>(R.id.FavoriteSpells)
 
-        FavouriteSpellsAdapter = FavouriteAdapter(emptyList())
+        FavouriteSpellsAdapter = FavouriteAdapter(emptyList() , textColor, borderColor)
         favouriteSpellsList.adapter = FavouriteSpellsAdapter
         favouriteSpellsList.layoutManager = LinearLayoutManager(context)
 

@@ -1,5 +1,6 @@
 package com.example.a5eddspellbook
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 
 
-class FavouriteAdapter (private var spells: List<Spell>) : RecyclerView.Adapter<FavouriteAdapter.SpellViewHolder>() {
+class FavouriteAdapter (private var spells: List<Spell>, private var textColor: Int, private var borderColor: Int) : RecyclerView.Adapter<FavouriteAdapter.SpellViewHolder>() {
 
     class SpellViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val spellName: TextView = view.findViewById(R.id.spellName)
@@ -37,6 +38,12 @@ class FavouriteAdapter (private var spells: List<Spell>) : RecyclerView.Adapter<
         }
         holder.spellName.text = spell.name
         holder.spellLevel.text = "Level: ${spell.level}"
+        (holder.itemView.background as? GradientDrawable)?.apply {
+            mutate()
+            setStroke(4, borderColor)
+        }
+        holder.spellName.setTextColor(textColor)
+        holder.spellLevel.setTextColor(textColor)
     }
 
     override fun getItemCount() = spells.size
@@ -45,5 +52,4 @@ class FavouriteAdapter (private var spells: List<Spell>) : RecyclerView.Adapter<
         spells = newSpells
         notifyDataSetChanged()
     }
-
 }

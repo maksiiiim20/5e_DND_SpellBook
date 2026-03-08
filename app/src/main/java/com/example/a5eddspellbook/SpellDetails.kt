@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,7 +16,6 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
-import kotlin.collections.remove
 import kotlin.collections.toMutableSet
 
 class SpellDetails : Fragment() {
@@ -32,6 +31,35 @@ class SpellDetails : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val settingsPrefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        val backgroundColor = settingsPrefs.getInt("background_color", R.color.BackgroundColor)
+        val borderColor = settingsPrefs.getInt("border_color", R.color.BorderColor)
+        val textColor = settingsPrefs.getInt("text_color", R.color.TextColor)
+
+
+        val allTextViews = listOf(
+            R.id.Name, R.id.Description, R.id.Range, R.id.Components,
+            R.id.Material, R.id.Ritual, R.id.Duration, R.id.Concentration,
+            R.id.CastingTime, R.id.Level, R.id.SchoolOfMagic, R.id.UpCast
+        )
+        allTextViews.forEach { id ->
+            view.findViewById<TextView>(id)?.setTextColor(textColor)
+        }
+
+        val allBorderViews = listOf(
+            R.id.Description, R.id.Range, R.id.Components,
+            R.id.Material, R.id.Ritual, R.id.Duration, R.id.Concentration,
+            R.id.CastingTime, R.id.Level, R.id.SchoolOfMagic, R.id.UpCast
+        )
+        allBorderViews.forEach { id ->
+            (view.findViewById<View>(id)?.background as? GradientDrawable)?.apply {
+                mutate()
+                setStroke(4, borderColor)
+            }
+        }
+        view.setBackgroundColor(backgroundColor)
+
+
         val spellUrl = arguments?.getString("spellUrl")
         val favoriteBtn = view.findViewById<ImageButton>(R.id.favourite)
         val sharedPrefs = requireActivity().getSharedPreferences("Favorites", Context.MODE_PRIVATE)
@@ -46,7 +74,6 @@ class SpellDetails : Fragment() {
             } else {
                 currentFavorites.add(spellUrl)
             }
-
 
             sharedPrefs.edit().putStringSet("favorite_spells", currentFavorites).apply()
 

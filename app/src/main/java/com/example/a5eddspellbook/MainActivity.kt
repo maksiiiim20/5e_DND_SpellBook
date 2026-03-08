@@ -3,7 +3,6 @@ package com.example.a5eddspellbook
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -24,12 +23,11 @@ class MainActivity : AppCompatActivity() {
         navigationView = findViewById(R.id.NavigationView)
         val menuButton = findViewById<ImageButton>(R.id.SideMenuButton)
 
-        // open drawer
         menuButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
 
-        // navigation clicks
+
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navHome -> replaceFragment(Home())
