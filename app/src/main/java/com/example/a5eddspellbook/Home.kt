@@ -34,9 +34,9 @@ class Home : Fragment() {
 
         val settingsPrefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE)
 
-        val backgroundColor = settingsPrefs.getInt("background_color", R.color.BackgroundColor)
-        val borderColor = settingsPrefs.getInt("border_color", R.color.BorderColor)
-        val textColor = settingsPrefs.getInt("text_color", R.color.TextColor)
+        val backgroundColor = settingsPrefs.getInt("background_color", ContextCompat.getColor(requireContext(), R.color.BackgroundColor))
+        val borderColor = settingsPrefs.getInt("border_color", ContextCompat.getColor(requireContext(), R.color.BorderColor))
+        val textColor = settingsPrefs.getInt("text_color", ContextCompat.getColor(requireContext(), R.color.TextColor))
 
 
         view.findViewById<TextView>(R.id.HomeTitle)?.setTextColor(textColor)

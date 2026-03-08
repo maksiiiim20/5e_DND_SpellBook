@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,9 +33,9 @@ class SpellDetails : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val settingsPrefs = requireActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE)
-        val backgroundColor = settingsPrefs.getInt("background_color", R.color.BackgroundColor)
-        val borderColor = settingsPrefs.getInt("border_color", R.color.BorderColor)
-        val textColor = settingsPrefs.getInt("text_color", R.color.TextColor)
+        val backgroundColor = settingsPrefs.getInt("background_color", ContextCompat.getColor(requireContext(), R.color.BackgroundColor))
+        val borderColor = settingsPrefs.getInt("border_color", ContextCompat.getColor(requireContext(), R.color.BorderColor))
+        val textColor = settingsPrefs.getInt("text_color", ContextCompat.getColor(requireContext(), R.color.TextColor))
 
 
         val allTextViews = listOf(
