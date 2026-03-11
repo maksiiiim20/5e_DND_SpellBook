@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.skydoves.colorpickerview.ColorEnvelope
 import com.skydoves.colorpickerview.ColorPickerDialog
 import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
+import androidx.core.content.edit
 
 class Settings : Fragment() {
     override fun onCreateView(
@@ -69,7 +70,7 @@ class Settings : Fragment() {
             root.findViewById(R.id.BorderColourLabel),
             root.findViewById(R.id.TextColourLabel)
         )
-        textViews.forEach { it?.setTextColor(color) }
+        textViews.forEach { it.setTextColor(color) }
         updatePreviewButton(root.findViewById(R.id.PickTextColorButton), color, true)
     }
 
@@ -81,7 +82,7 @@ class Settings : Fragment() {
         )
 
         buttons.forEach { view ->
-            val background = view?.background as? GradientDrawable
+            val background = view.background as? GradientDrawable
             background?.setStroke(4, color)
         }
         
@@ -105,7 +106,7 @@ class Settings : Fragment() {
                 override fun onColorSelected(envelope: ColorEnvelope, fromUser: Boolean) {
                     val selectedColor = envelope.color
                     onColorSelected(selectedColor)
-                    sharedPrefs.edit().putInt(prefKey, selectedColor).apply()
+                    sharedPrefs.edit { putInt(prefKey, selectedColor) }
                 }
             })
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }

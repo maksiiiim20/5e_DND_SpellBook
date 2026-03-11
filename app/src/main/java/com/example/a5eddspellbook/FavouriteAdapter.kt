@@ -17,13 +17,13 @@ class FavouriteAdapter (private var spells: List<Spell>, private var textColor: 
         val spellName: TextView = view.findViewById(R.id.spellName)
         val spellLevel: TextView = view.findViewById(R.id.spellLevel)
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavouriteAdapter.SpellViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpellViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.spell_list_item, parent, false)
         return SpellViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FavouriteAdapter.SpellViewHolder, index: Int) {
+    override fun onBindViewHolder(holder: SpellViewHolder, index: Int) {
         val spell = spells[index]
         holder.itemView.setOnClickListener {
             val activity = it.context as AppCompatActivity

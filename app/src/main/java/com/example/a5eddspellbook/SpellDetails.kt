@@ -1,5 +1,6 @@
 package com.example.a5eddspellbook
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.net.URL
 import kotlin.collections.toMutableSet
+import androidx.core.content.edit
 
 class SpellDetails : Fragment() {
 
@@ -29,6 +31,7 @@ class SpellDetails : Fragment() {
         return inflater.inflate(R.layout.spell_details, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -76,7 +79,7 @@ class SpellDetails : Fragment() {
                 currentFavorites.add(spellUrl)
             }
 
-            sharedPrefs.edit().putStringSet("favorite_spells", currentFavorites).apply()
+            sharedPrefs.edit { putStringSet("favorite_spells", currentFavorites) }
 
             isFavorite = !isFavorite
             updateFavoriteIcon(favoriteBtn, isFavorite)

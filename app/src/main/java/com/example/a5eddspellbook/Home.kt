@@ -18,7 +18,7 @@ import org.json.JSONObject
 import java.net.URL
 
 class Home : Fragment() {
-    private lateinit var FavouriteSpellsAdapter: FavouriteAdapter
+    private lateinit var favouriteSpellsAdapter: FavouriteAdapter
 
 
     override fun onCreateView(
@@ -45,8 +45,8 @@ class Home : Fragment() {
 
         val favouriteSpellsList = view.findViewById<RecyclerView>(R.id.FavoriteSpells)
 
-        FavouriteSpellsAdapter = FavouriteAdapter(emptyList() , textColor, borderColor)
-        favouriteSpellsList.adapter = FavouriteSpellsAdapter
+        favouriteSpellsAdapter = FavouriteAdapter(emptyList() , textColor, borderColor)
+        favouriteSpellsList.adapter = favouriteSpellsAdapter
         favouriteSpellsList.layoutManager = LinearLayoutManager(context)
 
         val sharedPrefs = requireActivity().getSharedPreferences("Favorites", Context.MODE_PRIVATE)
@@ -70,10 +70,10 @@ class Home : Fragment() {
                         Spell(spellName, spellLevel, spellUrl)
                     )
                 } catch (e: Exception) {
-                    FavouriteSpellsAdapter.updateSpells(spells)
+                    favouriteSpellsAdapter.updateSpells(spells)
                 }
             }
-            FavouriteSpellsAdapter.updateSpells(spells)
+            favouriteSpellsAdapter.updateSpells(spells)
         }
     }
 }
